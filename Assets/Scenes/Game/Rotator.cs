@@ -1,24 +1,37 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
 
 public class Rotator : MonoBehaviour {
-	private HingeJoint _hinge;
-	void Start() {
+	private ConfigurableJoint _joint;
+
+    void Start() {
 		var rigidBody = GetComponent<Rigidbody>();
 		rigidBody.centerOfMass = Vector3.down;
-		_hinge = GetComponent<HingeJoint>();
+		_joint = GetComponent<ConfigurableJoint>();
 		var rod = GetComponentsInChildren<Transform>().First (c => c.name == "rod");
-		_hinge.anchor = _hinge.transform.InverseTransformPoint(
+		_joint.anchor = _joint.transform.InverseTransformPoint(
 			rod.GetComponent<Renderer> ().bounds.center);
-	}
+    }
 
 	// Update is called once per frame
-	void Update () {
-		var motor = _hinge.motor;
-		float spin = Input.GetAxis ("Mouse X") * 5000;
-		motor.targetVelocity = spin;
-		_hinge.motor = motor;
+	void Update ()
+	{
+	    var horizontalMovement = Input.GetAxis ("Mouse X");
+	    Spin(horizontalMovement);
+        
+	    float verticalMovement = Input.GetAxis("Mouse Y");
+	    Translate(verticalMovement);
 	}
+
+    private void Translate(float verticalMovement)
+    {
+        var movement = verticalMovement * 5;
+        _joint.targetVelocity = Vector3.right * movement;
+    }
+
+    private void Spin(float horizontalMovement)
+    {
+        float spin = horizontalMovement * 100;
+        _joint.targetAngularVelocity = Vector3.left * spin;
+    }
 }
