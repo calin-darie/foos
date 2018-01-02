@@ -7474,6 +7474,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99a5ecdd0248d264f9528edc10976f38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &941219281
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 941219282}
+  - component: {fileID: 941219283}
+  m_Layer: 0
+  m_Name: RodSelector
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &941219282
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 941219281}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -30.37763, y: 22.96906, z: -18.891796}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &941219283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 941219281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4ce8c2778a90e41a7284f6dbf9bc0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  YourCharacterPrefab: {fileID: 4651513946502980, guid: caf0011a0838a6047be5f390628d2690,
+    type: 2}
 --- !u!1001 &944511758
 Prefab:
   m_ObjectHideFlags: 0

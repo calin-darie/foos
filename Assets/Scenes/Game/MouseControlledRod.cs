@@ -4,14 +4,16 @@ using UnityEngine;
 public class MouseControlledRod : MonoBehaviour {
     private const int Grip = 1000;
     private ConfigurableJoint _joint;
+    public Transform Rod { get; private set; }
+    public ManyMouse Mouse { get; set; }
 
     void Start() {
 		var rigidBody = AddRigidbody();
 		rigidBody.centerOfMass = Vector3.down;
 		_joint = AddAndConfigureJoint();
-		var rod = GetComponentsInChildren<Transform>().First (c => c.name == "rod");
+		Rod = GetComponentsInChildren<Transform>().First (c => c.name == "rod");
 		_joint.anchor = _joint.transform.InverseTransformPoint(
-			rod.GetComponent<Renderer> ().bounds.center);
+			Rod.GetComponent<Renderer> ().bounds.center);
     }
 
     private Rigidbody AddRigidbody()
@@ -54,10 +56,12 @@ public class MouseControlledRod : MonoBehaviour {
     // Update is called once per frame
 	void Update ()
 	{
-	    var horizontalMovement = Input.GetAxis ("Mouse X");
+	    if (Mouse == null) return;
+	    Vector2 delta = Mouse.Delta *  Time.deltaTime;
+        var horizontalMovement = delta.x;
 	    Spin(horizontalMovement);
         
-	    float verticalMovement = Input.GetAxis("Mouse Y");
+	    float verticalMovement = delta.y;
 	    Translate(verticalMovement);
 	}
 
