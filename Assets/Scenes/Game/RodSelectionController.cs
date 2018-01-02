@@ -8,7 +8,8 @@ using UnityEngine;
 public class RodSelectionController : MonoBehaviour {
 
 	public Transform CursorPrefab;
-    private List<Rod> _rods;
+    List<Rod> _rods;
+    readonly List<MousePlayerCursor> _renderers = new List<MousePlayerCursor>();
 
     void Start()
     {
@@ -19,15 +20,25 @@ public class RodSelectionController : MonoBehaviour {
             var cursor = SpawnRodSelectionCursorForMouseId(i);
             cursor.CursorPositionChanged += () => OnCursorPositionChanged(cursor);
             cursor.Click += () => OnClick(cursor);
+            _renderers.Add(cursor);
         }
         
         _rods = GetComponentsInChildren<MouseControlledRod>()
             .Select(r => new Rod(r))
             .ToList();
+
+        IsActive = true;
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+            Toggle();
     }
 
     private void OnClick(MousePlayerCursor playerCursor)
     {
+        if (!IsActive) return;
         ToggleControlOfOwnedRod(playerCursor);
     }
 
@@ -40,6 +51,7 @@ public class RodSelectionController : MonoBehaviour {
 
     private void OnCursorPositionChanged(MousePlayerCursor playerCursor)
     {
+        if (!IsActive) return;
         var ownedRods = _rods.Where(r => r.Owner == playerCursor);
         var rod = ClosestRod(playerCursor);
         foreach (var ownedRod in ownedRods.Where(r => r != rod))
@@ -47,21 +59,50 @@ public class RodSelectionController : MonoBehaviour {
         rod.AttemptSetOwner(playerCursor);
     }
 
-    private Rod ClosestRod(MousePlayerCursor playerCursor)
+    private bool IsActive { get; set; }
+
+    Rod ClosestRod(MousePlayerCursor playerCursor)
     {
         return _rods.OrderBy(r => r.DistanceTo(playerCursor.CursorPosition)).First();
     }
 
+    void Toggle()
+    {
+        _renderers.ForEach(r => r.gameObject.SetActive(!r.gameObject.activeSelf));
+        _rods.ForEach(r => r.ToggleHighlight());
+        IsActive = !IsActive;
+    }
 
     private class Rod
     {
         readonly MouseControlledRod _rod;
         private MousePlayerCursor _owner;
-        private Color _oldRodColor;
+        Color? _oldRodColor;
+        private bool _highlight;
 
         public Rod(MouseControlledRod rod)
         {
             _rod = rod;
+            Highlight = true;
+        }
+
+        private bool Highlight
+        {
+            get { return _highlight; }
+            set
+            {
+                if (_highlight == value) return;
+                _highlight = value;
+                OnHighlightChanged();
+            }
+        }
+
+        private void OnHighlightChanged()
+        {
+            if (Highlight)
+                HighlightWithOwnerColor();
+            else 
+                RestoreRodColor();
         }
 
         public MousePlayerCursor Owner
@@ -76,15 +117,37 @@ public class RodSelectionController : MonoBehaviour {
             }
         }
 
+        public Color OldRodColor
+        {
+            get
+            {
+                if (!_oldRodColor.HasValue)
+                {
+                    _oldRodColor = _rod.Rod.GetComponent<Renderer>().material.GetColor("_SpecColor");
+                }
+                return _oldRodColor.Value;
+            }
+        }
+
         private void OnOwnerChanging()
         {
-            _rod.Rod.GetComponent<Renderer>().material.SetColor("_SpecColor", _oldRodColor);
+            RestoreRodColor();
+        }
+
+        private void RestoreRodColor()
+        {
+            _rod.Rod.GetComponent<Renderer>().material.SetColor("_SpecColor", OldRodColor);
         }
 
         private void OnOwnerChanged()
         {
+            if (Highlight)
+                HighlightWithOwnerColor();
+        }
+
+        private void HighlightWithOwnerColor()
+        {
             if (Owner == null) return;
-            _oldRodColor = _rod.Rod.GetComponent<Renderer>().material.GetColor("_SpecColor");
             _rod.Rod.GetComponent<Renderer>().material.SetColor("_SpecColor", Owner.Color);
         }
 
@@ -110,6 +173,11 @@ public class RodSelectionController : MonoBehaviour {
             if (playerCursor == null) throw new ArgumentNullException("playerCursor");
             if (Owner == null)
                 Owner = playerCursor;
+        }
+
+        public void ToggleHighlight()
+        {
+            Highlight = !Highlight;
         }
     }
 
