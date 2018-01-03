@@ -102,7 +102,7 @@ public class RodSelectionController : MonoBehaviour {
         private void OnHighlightChanged()
         {
             if (Highlight)
-                HighlightWithOwnerColor();
+                HighlightWithOwnerColor(selectedRod:false);
             else 
                 RestoreRodColor();
         }
@@ -112,11 +112,17 @@ public class RodSelectionController : MonoBehaviour {
             get { return _owner; }
             private set
             {
-                if (_owner == value) return;
+                if (_owner == value)
+                    return;
                 OnOwnerChanging();
                 _owner = value;
                 OnOwnerChanged();
             }
+        }
+
+        private void OnOwnerReturned()
+        {
+            HighlightWithOwnerColor(selectedRod: true);
         }
 
         public Color OldRodColor
@@ -144,13 +150,16 @@ public class RodSelectionController : MonoBehaviour {
         private void OnOwnerChanged()
         {
             if (Highlight)
-                HighlightWithOwnerColor();
+                HighlightWithOwnerColor(selectedRod:true);
         }
 
-        private void HighlightWithOwnerColor()
+        private void HighlightWithOwnerColor(bool selectedRod)
         {
             if (Owner == null) return;
-            _rod.Rod.GetComponent<Renderer>().material.SetColor("_SpecColor", Owner.Color);
+            var ownerColor = Owner.Color;
+            float h, s, v;
+            Color.RGBToHSV(ownerColor, out h, out s, out v);
+            _rod.Rod.GetComponent<Renderer>().material.SetColor("_SpecColor", Color.HSVToRGB(h, selectedRod? s/2 : s, v));
         }
 
         public float DistanceTo(Vector2 point)
@@ -163,11 +172,14 @@ public class RodSelectionController : MonoBehaviour {
             if (Owner == null) return;
             _rod.Mouse = _rod.Mouse == null ? Owner.Mouse : null;
         }
+        
 
         public void OwnerLeft()
         {
             if (_rod.Mouse == null)
                 Owner = null;
+            else
+                HighlightWithOwnerColor(selectedRod: false);
         }
 
         public void AttemptSetOwner([NotNull] MousePlayerCursor playerCursor)
@@ -175,6 +187,8 @@ public class RodSelectionController : MonoBehaviour {
             if (playerCursor == null) throw new ArgumentNullException("playerCursor");
             if (Owner == null)
                 Owner = playerCursor;
+            else if (Owner == playerCursor)
+                OnOwnerReturned();
         }
 
         public void ToggleHighlight()
