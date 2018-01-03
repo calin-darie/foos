@@ -21,7 +21,7 @@ public class MouseControlledRod : MonoBehaviour {
         var rigidBody = gameObject.AddComponent<Rigidbody>();
         rigidBody.mass = 5;
         rigidBody.useGravity = false;
-        rigidBody.collisionDetectionMode = CollisionDetectionMode.Discrete;
+        rigidBody.collisionDetectionMode = CollisionDetectionMode.Continuous;
         return rigidBody;
     }
 
