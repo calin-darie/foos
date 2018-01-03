@@ -1,6 +1,10 @@
 ﻿using System;
 using UnityEngine;
 
+/*
+ todo
+ rotate table so that x,z are aligned with mouse x, y. currently mouse x,y corresponds to screen z,x, which is confusing
+*/
 public class MousePlayerCursor : MonoBehaviour
 {
     int _mouseId;
@@ -13,8 +17,10 @@ public class MousePlayerCursor : MonoBehaviour
         var renderer = GetComponent<Renderer>();
         renderer.material.color = color;
         Color = color;
+        MinX = MaxX = transform.position.x + mouseId * renderer.bounds.size.x;
+        transform.position = new Vector3(MinX, transform.position.y, MinZ + MaxZ / 2);
 
-	    _mouseId = mouseId;
+        _mouseId = mouseId;
 
         _mouse = ManyMouseWrapper.GetMouseByID( _mouseId );
         Debug.Log(gameObject.name + " connected to mouse: " + _mouse.DeviceName);
@@ -33,9 +39,24 @@ public class MousePlayerCursor : MonoBehaviour
 	void Update ()
 	{
 	    Vector2 delta = _mouse.Delta * Time.deltaTime * 5;
-	    transform.position += new Vector3(delta.y, 0, delta.x);
+	    transform.position = new Vector3(
+            ConstrainToInterval(transform.position.x + delta.y, MinX, MaxX), 
+            transform.position.y,
+            ConstrainToInterval(transform.position.z + delta.x, MinZ, MaxZ));
 	    CursorPosition = new Vector2(transform.position.z, transform.position.x);
 	}
+    
+    public float MinX;
+    public float MaxX;
+    public float MinZ = -50;
+    public float MaxZ = 0;
+
+    private float ConstrainToInterval(float number, float min, float max)
+    {
+        var constrainedToMin = Mathf.Max(number, min);
+        var constrainedToMinAndMax = Mathf.Min(constrainedToMin, max);
+        return constrainedToMinAndMax;
+    }
 
     public Vector2 CursorPosition
     {
