@@ -4927,6 +4927,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 650954445}
+  - component: {fileID: 650954446}
   m_Layer: 0
   m_Name: Tornado_Foosball_Table
   m_TagString: Untagged
@@ -4948,6 +4949,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!114 &650954446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 650954444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4ce8c2778a90e41a7284f6dbf9bc0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CursorPrefab: {fileID: 4651513946502980, guid: caf0011a0838a6047be5f390628d2690,
+    type: 2}
 --- !u!4 &657884789 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4500185932964810, guid: 1e5fde6a741acf04c9291dce3d50553d,
@@ -4964,6 +4978,8 @@ GameObject:
   - component: {fileID: 663054636}
   - component: {fileID: 663054635}
   - component: {fileID: 663054637}
+  - component: {fileID: 663054638}
+  - component: {fileID: 663054639}
   m_Layer: 0
   m_Name: table_floor
   m_TagString: Untagged
@@ -5042,6 +5058,30 @@ MeshCollider:
   m_InflateMesh: 0
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300312, guid: a33da124074d0274c80a6d23503e4f82, type: 3}
+--- !u!65 &663054638
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 663054633}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 25.92997, y: 55.00001, z: 18}
+  m_Center: {x: -18.556776, y: 28.50001, z: 31.750008}
+--- !u!114 &663054639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 663054633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72c4fc978cb72154187e9c5261313860, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Ball: {fileID: 1554361809}
 --- !u!1001 &664135959
 Prefab:
   m_ObjectHideFlags: 0
@@ -5969,8 +6009,9 @@ GameObject:
   - component: {fileID: 720923881}
   - component: {fileID: 720923883}
   - component: {fileID: 720923882}
+  - component: {fileID: 720923884}
   m_Layer: 0
-  m_Name: ID1816
+  m_Name: black_goal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6033,6 +6074,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 720923880}
   m_Mesh: {fileID: 4300288, guid: a33da124074d0274c80a6d23503e4f82, type: 3}
+--- !u!65 &720923884
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 720923880}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 8.75, y: 2.5625007, z: 3}
+  m_Center: {x: -18.55678, y: 53.98126, z: 33.25}
 --- !u!4 &724915353 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4563537344418000, guid: 48da990fbfe11054f857c332b56bd5ba,
@@ -7474,48 +7527,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99a5ecdd0248d264f9528edc10976f38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &941219281
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 941219282}
-  - component: {fileID: 941219283}
-  m_Layer: 0
-  m_Name: RodSelector
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &941219282
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 941219281}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -30.37763, y: 22.96906, z: -18.891796}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &941219283
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 941219281}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb4ce8c2778a90e41a7284f6dbf9bc0d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  YourCharacterPrefab: {fileID: 4651513946502980, guid: caf0011a0838a6047be5f390628d2690,
-    type: 2}
 --- !u!1001 &944511758
 Prefab:
   m_ObjectHideFlags: 0
@@ -9638,8 +9649,9 @@ GameObject:
   - component: {fileID: 1273258011}
   - component: {fileID: 1273258013}
   - component: {fileID: 1273258012}
+  - component: {fileID: 1273258014}
   m_Layer: 0
-  m_Name: ID1824
+  m_Name: yellow_goal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9701,6 +9713,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1273258010}
   m_Mesh: {fileID: 4300290, guid: a33da124074d0274c80a6d23503e4f82, type: 3}
+--- !u!65 &1273258014
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1273258010}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 8.75, y: 3.3125007, z: 3.0000007}
+  m_Center: {x: -18.55678, y: 2.643751, z: 33.250008}
 --- !u!1001 &1285082604
 Prefab:
   m_ObjectHideFlags: 0

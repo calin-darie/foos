@@ -14,6 +14,8 @@ public class RodSelectionController : MonoBehaviour {
     void Start()
     {
         Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
         int numMice = ManyMouseWrapper.MouseCount;
         for (int i = 0; i < numMice; i++)
         {
