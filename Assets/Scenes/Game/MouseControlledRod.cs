@@ -67,13 +67,13 @@ public class MouseControlledRod : MonoBehaviour {
 
     private void Translate(float verticalMovement)
     {
-        var movement = verticalMovement * 5;
+        var movement = verticalMovement * 20;
         _joint.targetVelocity = Vector3.right * movement;
     }
 
     private void Spin(float horizontalMovement)
     {
-        float spin = horizontalMovement * 100;
+        float spin = Mathf.Min(horizontalMovement * 50, 350);
         _joint.targetAngularVelocity = Vector3.left * spin;
     }
 }
