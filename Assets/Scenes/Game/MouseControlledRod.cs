@@ -57,7 +57,7 @@ public class MouseControlledRod : MonoBehaviour {
 	void Update ()
 	{
 	    if (Mouse == null) return;
-	    Vector2 mouseSpeed = Mouse.Delta / (Time.deltaTime * 10);
+	    Vector2 mouseSpeed = Mouse.Delta / (Time.deltaTime * 25);
         var horizontalSpeed = mouseSpeed.x;
 	    Spin(horizontalSpeed);
         
