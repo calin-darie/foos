@@ -38,11 +38,11 @@ public class MousePlayerCursor : MonoBehaviour
     
 	void Update ()
 	{
-	    Vector2 delta = _mouse.Delta * Time.deltaTime * 5;
+	    Vector2 transformDelta = _mouse.Delta / 4;
 	    transform.position = new Vector3(
-            ConstrainToInterval(transform.position.x + delta.y, MinX, MaxX), 
+            ConstrainToInterval(transform.position.x + transformDelta.y, MinX, MaxX), 
             transform.position.y,
-            ConstrainToInterval(transform.position.z + delta.x, MinZ, MaxZ));
+            ConstrainToInterval(transform.position.z + transformDelta.x, MinZ, MaxZ));
 	    CursorPosition = new Vector2(transform.position.z, transform.position.x);
 	}
     

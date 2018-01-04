@@ -57,23 +57,23 @@ public class MouseControlledRod : MonoBehaviour {
 	void Update ()
 	{
 	    if (Mouse == null) return;
-	    Vector2 delta = Mouse.Delta *  Time.deltaTime;
-        var horizontalMovement = delta.x;
-	    Spin(horizontalMovement);
+	    Vector2 mouseSpeed = Mouse.Delta / (Time.deltaTime * 10);
+        var horizontalSpeed = mouseSpeed.x;
+	    Spin(horizontalSpeed);
         
-	    float verticalMovement = delta.y;
-	    Translate(verticalMovement);
+	    float verticalSpeed = mouseSpeed.y;
+	    Translate(verticalSpeed);
 	}
 
-    private void Translate(float verticalMovement)
+    private void Translate(float verticalSpeed)
     {
-        var movement = verticalMovement * 20;
+        var movement = verticalSpeed * 5;
         _joint.targetVelocity = Vector3.right * movement;
     }
 
-    private void Spin(float horizontalMovement)
+    private void Spin(float horizontalSpeed)
     {
-        float spin = Mathf.Min(horizontalMovement * 50, 1200);
+        float spin = Mathf.Min(horizontalSpeed, 1200);
         _joint.targetAngularVelocity = Vector3.left * spin;
     }
 }
